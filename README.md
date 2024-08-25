@@ -62,7 +62,7 @@ Dentro deste contexto, o CEO da empresa precisa identificar os principais pontos
 
 ## [2] Base de Dados
 
-Os dados foram obtidos a partir de um conjunto de informações coletadas pela empresa Fome Zero! através de sua plataforma, que é continuamente alimentada por usuários e restaurantes.
+Os dados foram obtidos a partir de um conjunto de informações coletadas pela empresa World Restaurants! através de sua plataforma, que é continuamente alimentada por usuários e restaurantes.
 
 ## [3] Metodologia
 
@@ -89,7 +89,7 @@ O painel pode ser acessado através do link:
 
 ## [6] Conclusão
 
-O objetivo deste projeto foi criar um conjunto de visualizações que permitam ao CEO da empresa Fome Zero! ter uma visão clara e abrangente dos principais indicadores de desempenho do negócio. A análise indica um grande potencial para o crescimento da empresa, especialmente em mercados menos explorados.
+O objetivo deste projeto foi criar um conjunto de visualizações que permitam ao CEO da empresa World Restaurants! ter uma visão clara e abrangente dos principais indicadores de desempenho do negócio. A análise indica um grande potencial para o crescimento da empresa, especialmente em mercados menos explorados.
 
 ## [7] Próximos Passos
 
