@@ -14,7 +14,7 @@ class app_home():
         self.util: DbUtil = None
 
     def BarraLateral(self) -> None:
-        image_path = '/home/srm/PROJETOS_DS/Projeto_fomezero/Restaurant_Icon.png'
+        image_path = 'Restaurant_Icon.png'
         image = Image.open(image_path)
         st.sidebar.image(image, width=80)
 
