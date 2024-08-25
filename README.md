@@ -1,6 +1,5 @@
----
 
-# Projeto Fome Zero!
+# Projeto World Restaurants!
 
 ## [1] O Desafio de Negócio
 
@@ -84,7 +83,7 @@ Alguns destaques incluem:
 O produto final deste projeto é um painel online interativo, hospedado na nuvem, que pode ser acessado de qualquer dispositivo conectado à internet. O painel fornece uma visualização clara e intuitiva das métricas de negócio mais importantes.
 
 O painel pode ser acessado através do link:
-- [Link para o painel](https://fomezero-iw9um7ljd7.streamlit.app/)
+- [Link para o painel](https://restaurantsglobal.streamlit.app/)
 
 ![banner](Painel.png)
 
