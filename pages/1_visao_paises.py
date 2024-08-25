@@ -56,7 +56,7 @@ class AppPaises:
         Exibe gráficos e tabelas com base nas seleções feitas na barra lateral.
         """
         # Título da Página
-        st.write('# World Restaurants! - Visão Países')
+        st.write('# World Restaurants - Visão Países')
 
         # Gráfico 1: Quantidade de restaurantes por país
         st.markdown("""---""")
