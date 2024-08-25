@@ -1,14 +1,3 @@
-#------------------------------------------------------------------------------
-
-# SOME STREAMLIT REF:
-#   IMAGE . . . : https://docs.streamlit.io/library/api-reference/media/st.image
-#   MARKDOWN. . : https://docs.streamlit.io/library/api-reference/text/st.markdown
-#   WRITE . . . : https://docs.streamlit.io/library/api-reference/write-magic/st.write
-#   MULTISELECT : https://docs.streamlit.io/library/api-reference/widgets/st.multiselect
-#   DOWNLOAD. . : https://docs.streamlit.io/knowledge-base/using-streamlit/how-download-file-streamlit
-#                 https://docs.streamlit.io/library/api-reference/widgets/st.download_button
-#   PLOTLY CHART: https://docs.streamlit.io/library/api-reference/charts/st.plotly_chart
-
 
 import pandas as pd
 import numpy as np
@@ -201,7 +190,7 @@ def main():
         layout='wide'
     )
 
-    MyCSV = '/home/srm/PROJETOS_DS/Projeto_fomezero/dataset/zomato.csv'
+    MyCSV = 'dataset/zomato.csv'
     
     # Aqui está a correção: use DbUtil ao invés de dbutil
     util = DbUtil()  
