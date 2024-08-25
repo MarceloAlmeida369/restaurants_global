@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 import streamlit as st
@@ -6,96 +5,62 @@ from PIL import Image
 import folium
 from streamlit_folium import folium_static
 from locale import atof, setlocale, LC_NUMERIC
-
 from dbutil import DbUtil  # Certifique-se de que o nome do arquivo é dbutil.py e o import está correto
 
 #--------- CLASSE: PÁGINA 'HOME' ----------------------------------------------
 class app_home():
-    #..... CONSTRUCTOR
     def __init__(self) -> None:
         self.dfhome: pd.core.frame.DataFrame = None
         self.util: DbUtil = None
-        return
 
-#--------- CLASSE: PÁGINA 'HOME' ----------------------------------------------
-class app_home():
-
-    #..... CONSTRUCTOR
-    def __init__(self) -> None:
-        self.dfhome: pd.core.frame.DataFrame = None
-        #self.util: dbutil = None
-        return
-
-    #..... BARRA LATERAL
     def BarraLateral(self) -> None:
-
-        #..... ICONE+TÍTULO DO APP
         image_path = '/home/srm/PROJETOS_DS/Projeto_fomezero/Restaurant_Icon.png'
-        image = Image.open( image_path )
-        # OBS: elemento 'image' não prevê incluir texto lateral
-        st.sidebar.image( image, width=80 )
+        image = Image.open(image_path)
+        st.sidebar.image(image, width=80)
 
-        st.sidebar.markdown( '# Zomato Restaurants' )
-
-        #..... FILTROS
-        st.sidebar.markdown( '## Filtros' )
+        st.sidebar.markdown('# Zomato Restaurants')
+        st.sidebar.markdown('## Filtros')
         st.sidebar.write('Escolha os **PAÍSES** cujas **INFORMAÇÕES** deseja visualizar:')
 
-        # Radio Button - todos ou só alguns países...
         the_countries = self.util.get_all_countries()
-        default_countries = self.util.countries_with_more_restaurants( 6 )
-        qty_countries = st.sidebar.radio(
-            "", 
-            ('Principais','Todos'), 
-            label_visibility="collapsed" )
+        default_countries = self.util.countries_with_more_restaurants(6)
+        qty_countries = st.sidebar.radio("", ('Principais', 'Todos'), label_visibility="collapsed")
         if qty_countries == 'Todos':
             default_countries = the_countries
 
-        # Critérios de filtragem
         country_options = st.sidebar.multiselect(
             label='Seleção:',
             options=the_countries,
-            default=default_countries )
+            default=default_countries
+        )
 
-        # Obtém dataframe filtrado
         self.dfhome = self.util.get_items_with_these_countries(country_options)
 
-        #..... Download Button
         st.sidebar.markdown("""---""")
         csv_file = self.dfhome.to_csv()
         txt = 'Dados tratados e com filtragem do usuário'
         if st.sidebar.download_button('Baixar dados', csv_file, None, 'text/csv', help=txt):
-            st.sidebar.write( 'Download OK :thumbsup:' )
+            st.sidebar.write('Download OK :thumbsup:')
 
-        #..... Assinatura do autor
         st.sidebar.markdown("""---""")
         st.sidebar.write('')
         st.sidebar.caption('Powered by Marcelo- 2024')
         st.sidebar.caption(':blue[servicoseletricosloiola@gmail.com]')
         st.sidebar.caption('[github](https://github.com/MarceloAlmeida369)')
 
-        # fim
-        return
-
-    #..... PÁGINA PRINCIPAL
     def MainPage(self):
-
-        #..... Título
         with st.container():
-            col1, col2, col3 = st.columns( 3 )
+            col1, col2, col3 = st.columns(3)
             with col1:
                 image_path = 'Restaurant_Icon.png'
-                image = Image.open( image_path )
-                st.image( image, width=160 )
+                image = Image.open(image_path)
+                st.image(image, width=160)
             with col2:
                 st.write('# Zomato Restaurants')
 
-        #..... SubTítulo
-        st.write( "### O melhor lugar para encontrar o seu mais novo restaurante favorito" )
-
-        #..... Indicadores gerais de desempenho
+        st.write("### O melhor lugar para encontrar o seu mais novo restaurante favorito")
         st.markdown("""---""")
-        st.write( "### Nossa plataforma vem alcançando as seguintes marcas:" )
+        st.write("### Nossa plataforma vem alcançando as seguintes marcas:")
 
         with st.container():
             col1, col2, col3, col4, col5 = st.columns(5)
@@ -113,95 +78,70 @@ class app_home():
         with st.container():
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
-                tot = len( self.dfhome['country_name'].unique() )     # países
-                st.markdown('## **'+str(tot)+'**')
+                tot = len(self.dfhome['country_name'].unique())  # países
+                st.markdown('## **' + str(tot) + '**')
             with col2:
-                tot = len( self.dfhome['city'].unique() )             # cidades
-                st.markdown('## **'+str(tot)+'**')
+                tot = len(self.dfhome['city'].unique())  # cidades
+                st.markdown('## **' + str(tot) + '**')
             with col3:
-                tot = len( self.dfhome['restaurant_name'].unique() )  # restaurantes
-                #txt = '{:,.0f}'.format(tot)
-                txt = self.num_to_str( tot )
-                st.markdown('## **'+txt+'**')
+                tot = len(self.dfhome['restaurant_name'].unique())  # restaurantes
+                txt = self.num_to_str(tot)
+                st.markdown('## **' + txt + '**')
             with col4:
-                df1 = self.dfhome['votes']                            # avaliações
+                df1 = self.dfhome['votes']  # avaliações
                 tot = df1.sum()
-                txt = self.num_to_str( tot )
-                st.markdown('## **'+txt+'**')
+                txt = self.num_to_str(tot)
+                st.markdown('## **' + txt + '**')
             with col5:
-                tot = len( self.dfhome['unique_cuisine'].unique() )   # culinárias
-                st.markdown('## **'+str(tot)+'**')
+                tot = len(self.dfhome['unique_cuisine'].unique())  # culinárias
+                st.markdown('## **' + str(tot) + '**')
 
-        #..... MAPA MUNDI
         st.markdown("""---""")
         self.country_map()
 
-        # FIM
-        return
+    def country_map(self) -> None:
+        colunas = ['city', 'aggregate_rating', 'rating_color', 'latitude', 'longitude']
+        df2 = self.dfhome.loc[:, colunas]
+        df3 = (df2.loc[:, :].groupby(['city', 'aggregate_rating', 'rating_color'])
+              .median()
+              .reset_index())
 
-    #..... MAPA MUNDI
-    def country_map( self ) -> None:
-        colunas = ['city','aggregate_rating','rating_color','latitude','longitude']
-        df2 = self.dfhome.loc[: ,colunas]
-        # df3 = pontos a colocar no mapa 
-        #  -->  [ city, aggregate_rating, latitude, longitude ]
-        df3 = ( df2.loc[:,:].groupby(['city','aggregate_rating','rating_color'])
-                            .median()
-                            .reset_index() )
-        # Desenhar MAPA
-        CityMap = folium.Map( zoom_start=11 )
+        CityMap = folium.Map(zoom_start=11)
 
-        for index, location_info in df3.iterrows():
-            # Insere, um por um, os pinos no mapa.
-            folium.Marker( [location_info['latitude'],
-                            location_info['longitude']],
-                            popup=location_info[['city','aggregate_rating']], 
-                            icon=folium.Icon( color=self.util.color_name(location_info['rating_color']) ) ).add_to(CityMap)
-        folium_static( CityMap, width=1024, height=600 )
-        # FIM
-        return
-    
+        for _, location_info in df3.iterrows():
+            folium.Marker(
+                [location_info['latitude'], location_info['longitude']],
+                popup=location_info[['city', 'aggregate_rating']],
+                icon=folium.Icon(color=self.util.color_name(location_info['rating_color']))
+            ).add_to(CityMap)
+        folium_static(CityMap, width=1024, height=600)
 
-    def num_to_str( self, inNUM: float ) -> str:
-        txt = ''
-        # Se o número for menor que 10.000, só converte e pronto
+    def num_to_str(self, inNUM: float) -> str:
         if inNUM < 10000:
-            txt = '{:,.0f}'.format( inNUM )
-        # Se o número for entre 10.000 e 999.999, divide por mil e responde: 10 mil
+            return '{:,.0f}'.format(inNUM)
         elif inNUM < 999999:
-            num = inNUM / 1000
-            txt = '{:,.1f}'.format( num ) + ' mil'
-        # Se o número for menor que bilhão, divide por milhao e responde: 13 milhões
+            return '{:,.1f}'.format(inNUM / 1000) + ' mil'
         elif inNUM < 999999999:
-            num = inNUM / 1000000
-            txt = '{:,.2f}'.format( num ) + ' mi'
+            return '{:,.2f}'.format(inNUM / 1000000) + ' mi'
         else:
-            num = inNUM / 1000000000
-            txt = '{:,.2f}'.format( num ) + ' bi'
-        return txt
+            return '{:,.2f}'.format(inNUM / 1000000000) + ' bi'
 
-
-
-#--------- MAIN HOME PROCEDURE ------------------------------------------------
 def main():
-    st.set_page_config(
-        page_title="Home",
-        page_icon="🍴",
-        layout='wide'
-    )
+    st.set_page_config(page_title="Home", page_icon="🍴", layout='wide')
 
-    MyCSV = 'dataset/zomato.csv'
-    
-    # Aqui está a correção: use DbUtil ao invés de dbutil
-    util = DbUtil()  
-    util.LoadDataframe(MyCSV)
-    util.GeneralCleansing()  # clean & adjust data
+    # Passe o caminho do arquivo diretamente
+    csv_path = 'dataset/zomato.csv'
 
-    # Cria a Home e inclui BarraLateral e PáginaPrincipal
+    util = DbUtil()
+    util.LoadDataframe(csv_path)  # Passe o caminho do arquivo aqui
+    util.GeneralCleansing()  # Limpar e ajustar os dados
+
     HomePage = app_home()
     HomePage.util = util
     HomePage.BarraLateral()
     HomePage.MainPage()
+
+
 
     st.markdown("""
     ## Descrição do Dataset
