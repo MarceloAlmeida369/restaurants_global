@@ -56,7 +56,7 @@ class app_home():
                 image = Image.open(image_path)
                 st.image(image, width=160)
             with col2:
-                st.write('# Zomato Restaurants')
+                st.write('# World Restaurants!')
 
         st.write("### O melhor lugar para encontrar o seu mais novo restaurante favorito")
         st.markdown("""---""")
