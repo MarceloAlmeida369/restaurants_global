@@ -1,4 +1,4 @@
-folium==0.14.0
+folium==0.17.0
 haversine==2.7.0
 inflection==0.5.1
 matplotlib==3.5.3
