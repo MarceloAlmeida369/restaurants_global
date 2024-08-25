@@ -3,7 +3,7 @@
 
 ## [1] O Desafio de Negócio
 
-A Fome Zero! é uma plataforma de marketplace voltada para restaurantes, cujo principal objetivo é facilitar a conexão e as transações entre clientes e estabelecimentos de alimentação. A empresa utiliza uma plataforma tecnológica que oferece uma variedade de informações sobre os restaurantes, como localização, tipo de culinária, disponibilidade de reservas, serviço de entrega, e avaliações dos produtos e serviços oferecidos.
+A World Restaurants! é uma plataforma de marketplace voltada para restaurantes, cujo principal objetivo é facilitar a conexão e as transações entre clientes e estabelecimentos de alimentação. A empresa utiliza uma plataforma tecnológica que oferece uma variedade de informações sobre os restaurantes, como localização, tipo de culinária, disponibilidade de reservas, serviço de entrega, e avaliações dos produtos e serviços oferecidos.
 
 Dentro deste contexto, o CEO da empresa precisa identificar os principais pontos do negócio, contando com o suporte de um cientista de dados, que tem a tarefa de extrair dos dados as respostas para questões essenciais para o desenvolvimento da empresa, como:
 
