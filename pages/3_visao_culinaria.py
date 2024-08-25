@@ -73,7 +73,7 @@ def rename_columns(df: pd.DataFrame) -> pd.DataFrame:
     
     df.columns = cols_new
     
-    df['country_name'] = df['country_code'].apply(lambda x: COUNTRIES.get(x))
+    df['country_name'] = df['country_code'].apply(lambda x: COUNTRIES.get(x, "Unknown"))
     
     return df
 
@@ -138,7 +138,7 @@ class AppCulinarias:
         Adiciona filtros para seleção de países e culinárias, além 
         de controles de quantidade de restaurantes exibidos.
         """
-        image_path = '/home/srm/PROJETOS_DS/Projeto_fomezero/Restaurant_Icon.png'
+        image_path = 'Restaurant_Icon.png'
         image = Image.open(image_path)
         st.sidebar.image(image, width=60)
 
@@ -179,7 +179,7 @@ class AppCulinarias:
         Método para construir a página principal do aplicativo.
         Exibe gráficos e tabelas com base nas seleções feitas na barra lateral.
         """
-        st.markdown('# Zomato Restaurants - Visão Culinária')
+        st.markdown('# World Restaurants - Visão Culinária')
 
         st.divider()
         st.write('### Melhores Restaurantes por Tipo Culinário')
@@ -281,7 +281,7 @@ class DBUtil:
         """
         lines = (self.dtframe.loc[:, 'country_name']
                  .apply(lambda x: any(country in x for country in list_of_countries)))
-        return self.dtframe.loc[lines, :].copy().reset_index()
+        return self.dtframe.loc[lines, :].copy().reset_index(drop=True)
 
     def get_all_cuisines(self) -> list:
         """
@@ -330,7 +330,7 @@ class DBUtil:
         """
         lines = (inDF.loc[:, 'unique_cuisine']
                  .apply(lambda x: any(cuizn in x for cuizn in list_of_cuisines)))
-        return inDF.loc[lines, :].copy().reset_index()
+        return inDF.loc[lines, :].copy().reset_index(drop=True)
 
     def best_restaurants_from_cuisine(self, cuisine: str, inDF: pd.DataFrame) -> pd.DataFrame:
         """
@@ -346,10 +346,10 @@ class DBUtil:
         colunas = ['restaurant_id', 'restaurant_name', 'unique_cuisine', 'aggregate_rating', 'country_name']
         linhas = (inDF['unique_cuisine'] == cuisine)
         df2 = inDF.loc[linhas, colunas].copy()
-        df3 = df2.sort_values(by='aggregate_rating', ascending=False).reset_index()
+        df3 = df2.sort_values(by='aggregate_rating', ascending=False).reset_index(drop=True)
         max_rating = df3.loc[0, 'aggregate_rating']
         linhas = df3['aggregate_rating'] == max_rating
-        return df3.loc[linhas, :].sort_values(by='restaurant_id').reset_index()
+        return df3.loc[linhas, :].sort_values(by='restaurant_id').reset_index(drop=True)
 
     def best_restaurants(self, inDF: pd.DataFrame) -> pd.DataFrame:
         """
@@ -366,7 +366,7 @@ class DBUtil:
         df3['restaurant_id'] = -df3['restaurant_id']
         df4 = (df3.loc[:, :]
                .sort_values(by=['aggregate_rating', 'restaurant_id'], ascending=False)
-               .reset_index())
+               .reset_index(drop=True))
         df4['restaurant_id'] = -df4['restaurant_id']
         return df4
 
@@ -399,7 +399,7 @@ def main():
     st.set_page_config(page_title="Culinárias", page_icon="🫖", layout='wide')
 
     # Processo de ETL
-    file_path = '/home/srm/PROJETOS_DS/Projeto_fomezero/dataset/zomato.csv'
+    file_path = 'dataset/zomato.csv'
     df_raw = extract_data(file_path)
     df_transformed = transform_data(df_raw)
     df_loaded = load_data(df_transformed)
@@ -412,4 +412,3 @@ def main():
 #--------- START ME UP --------------------------------------------------------
 if __name__ == "__main__":
     main()
-
