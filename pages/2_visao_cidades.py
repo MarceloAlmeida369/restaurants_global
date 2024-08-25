@@ -25,7 +25,7 @@ class AppCidades:
         Adiciona filtros para seleção de países e define os critérios de visualização de dados.
         """
         # Icone e Título do App
-        image_path = '/home/srm/PROJETOS_DS/Projeto_fomezero/Restaurant_Icon.png'
+        image_path = 'Restaurant_Icon.png'
         image = Image.open(image_path)
         st.sidebar.image(image, width=60)
 
@@ -57,7 +57,7 @@ class AppCidades:
         Exibe gráficos e tabelas com base nas seleções feitas na barra lateral.
         """
         # Título da Página
-        st.write('# Zomato Restaurants - Visão Cidades')
+        st.write('# World Restaurants - Visão Cidades')
 
         # Gráfico 1: Top-10 cidades com mais restaurantes registrados
         st.divider()
@@ -227,7 +227,7 @@ class DBUtil:
         Retorna:
         - Nome do país correspondente.
         """
-        return self.COUNTRIES[country_id]
+        return self.COUNTRIES.get(country_id, "Unknown")
 
     def get_all_countries(self) -> list:
         """
@@ -272,7 +272,7 @@ class DBUtil:
         """
         lines = (self.dtframe.loc[:, 'country_name']
                  .apply(lambda x: any(country in x for country in list_of_countries)))
-        return self.dtframe.loc[lines, :].copy().reset_index()
+        return self.dtframe.loc[lines, :].copy().reset_index(drop=True)
 
 #--------- MAIN HOME PROCEDURE ------------------------------------------------
 def main():
@@ -283,9 +283,11 @@ def main():
     """
     st.set_page_config(page_title="Cidades", page_icon="🏘️", layout='wide')
 
-    MyCSV = '/home/srm/PROJETOS_DS/Projeto_fomezero/dataset/zomato.csv'
+    # Passe o caminho do arquivo diretamente
+    csv_path = 'dataset/zomato.csv'
+
     util = DBUtil()
-    util.LoadDataframe(MyCSV)
+    util.LoadDataframe(csv_path)
     util.GeneralCleansing()  # Limpa e ajusta os dados
 
     # Cria a Home e inclui BarraLateral e PáginaPrincipal
