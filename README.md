@@ -1,5 +1,3 @@
-Aqui está o texto reescrito, mantendo o mesmo significado:
-
 ---
 
 # Projeto Fome Zero!
