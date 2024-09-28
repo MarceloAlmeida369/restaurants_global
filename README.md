@@ -99,5 +99,3 @@ Para futuras melhorias, o projeto pode ser expandido para:
 - Desenvolver novos indicadores focados tanto no crescimento do negócio quanto na melhoria da qualidade dos serviços prestados.
 
 ---
-
-Esse texto reformulado mantém o conteúdo e as intenções originais, apresentando-o de uma forma diferente.
